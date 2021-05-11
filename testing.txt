@@ -1,0 +1,113 @@
+      // ANOMOLY FIXES
+      // 3 wilds pay more than 4 of anything but lobstermania
+      // 4 wilds pay more than 5 of anything but lobstermania
+      // Take greatest win possible
+
+
+static void process_line (int linenum)
+{
+  symbols sym = lines[linenum][0];
+  symbols alt_sym = WS;
+
+  int count = 1; // count of matching symbols
+  switch (sym)
+    {
+      case LO:
+        for (int i=1; i<3; i++)
+          if (sym == lines[linenum][i])
+            count++;
+      break;
+
+      case LT:
+        for (int i=1; i<N_REELS; i++)
+          if (sym == lines[linenum][i])
+            count++;
+      break; // fixme: handled at ...
+
+      case WS:
+        for (int i = 1; i < N_REELS; i++)
+          if ((lines[linenum][i] == sym) || (lines[linenum][i] == alt_sym))
+            count++;
+          else if ((lines[linenum][i] != LO) && (lines[linenum][i] != LT) && (alt_sym == WS))
+            {
+              alt_sym = lines[linenum][i];
+              count++;
+            }
+          else
+            break;
+
+      sym = alt_sym; // count and sym are now set correctly
+
+      // ANOMOLY FIXES
+      // 3 wilds pay more than 4 of anything but lobstermania
+      // 4 wilds pay more than 5 of anything but lobstermania
+      // Take greatest win possible
+
+      // Leading 4 wilds
+      if ((lines[linenum][1] == WS) && (lines[linenum][2] == WS) && (lines[linenum][3] == WS)
+          && (lines[linenum][4] != LM) && (lines[linenum][4] != WS))
+        {
+          sym = WS;
+          count = 4;
+        }
+
+      // Leading 3 wilds
+      if ((lines[linenum][1] == WS) && (lines[linenum][2] == WS) && (lines[linenum][3] != LM)
+          && (lines[linenum][3] != WS) && (lines[linenum][4] != lines[linenum][3]) && (lines[linenum][4] != WS))
+        {
+          sym = WS;
+          count = 3;
+        }
+      break; // case WS
+
+      default:
+        for (int i = 1; i < MAX_MATCHES; i++)
+          {
+            if ((lines[linenum][i] == sym) || (lines[linenum][i] == WS))
+              count++;
+            else
+              break;
+          }
+    } // end switch
+
+  // count variable now set for number of consecutive sym symbols (1 based)
+  count--; // adjust for zero based indexing
+  int payout = payouts[count][sym];
+
+  // fixme: changed > to >= for testing to print all paylines
+  if (payout >= 0)
+    {
+      // fixme: changed 1st param from linenum to spins for testing
+      print_win_line (num_spins, sym, count+1, payout);
+      num_hits++;
+      switch (sym)
+        {
+          case LO:
+            num_bonuses += 1; // fixme: count # of bonus as num_line_wins
+          // fixme: using fixed bonus for testing (num_hits above too?)
+          cum_bonus_wins += payout;
+          break;
+
+          case LT:
+            break;
+
+          case WS:
+            if (count == 4) // zero based
+              {
+                num_jackpots++; // fixme: Add other jackpot actions
+                cum_jackpot_wins += payout;
+              }
+            else
+              {
+                num_line_wins++;
+                cum_line_wins += payout;
+              }
+          break;
+
+          default:
+            num_line_wins++;
+          cum_line_wins += payout;
+        }
+    }
+}
+
