@@ -5,17 +5,13 @@
 #ifndef _STATS_H_
 #define _STATS_H_
 
-// COUNTERS
-extern long num_spins;
-extern long num_hits;
-extern long num_line_wins; // regular line wins only (no LO or LT)
-extern long num_bonuses;
-extern long num_scatters;
-extern long num_jackpots;
-extern long cum_line_wins;
-extern long cum_bonus_wins;
-extern long cum_scatter_wins;
-extern long cum_jackpot_wins;
+typedef unsigned long ulong;
+
+ulong num_spins; // +1 for each new game
+ulong num_line_hits; // +1 for each line win (includes bonuses)
+ulong num_scatter_hits; // +1 for each scatter win
+ulong cum_line_wins; // cumulative credits won for line wins
+ulong cum_scatter_wins; // cumulative credits won for scatter wins
 
 // CALCULATED
 extern double hit_rate;

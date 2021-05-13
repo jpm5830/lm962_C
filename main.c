@@ -10,15 +10,15 @@
 int main ()
 {
   print_game_info = FALSE;
-  long spins = 1000000;
-  unsigned long start_t = time (0);
+  ulong spins = 2600000000; // 2.6B
+  ulong start_t = time (0);
   srand (time (0));
   init_engine ();
   spin_n_times (spins);
   print_stats ();
   free_reels (); // allocated heap memory
-  unsigned long end_t = time (0);
-  unsigned long delta_seconds = end_t - start_t;
+  ulong end_t = time (0);
+  ulong delta_seconds = end_t - start_t;
   printf ("\n%ld spins completed in %ld seconds.\n", spins, delta_seconds);
   return 0;
 }

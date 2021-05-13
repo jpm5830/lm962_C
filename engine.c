@@ -9,7 +9,7 @@
 
 bool print_game_info = TRUE; // print gameboard and wins?
 
-int payouts[MAX_MATCHES][SYM_SET_SIZE] =
+ulong payouts[MAX_MATCHES][SYM_SET_SIZE] =
     {
         {0,     0,    0,   0,   0,   0,   0,   0,   0,   0,   0},
         {5,     2,    0,   0,   0,   0,   0,   0,   0,   0,   0},
@@ -19,7 +19,7 @@ int payouts[MAX_MATCHES][SYM_SET_SIZE] =
     };
 
 // LOCAL FORWARD DECLARATIONS
-static void print_win_line (int linenum, symbols sym, int count, int payout);
+static void print_win_line (int linenum, symbol sym, int count, ulong payout);
 static void handle_any_scatter_wins ();
 static void process_line (int linenum);
 
@@ -30,15 +30,15 @@ void init_engine ()
   reset_stats ();
 }
 
-void spin_n_times (long n)
+void spin_n_times (ulong n)
 {
-  for (long i = 0; i < n; i++)
+  for (ulong i = 0; i < n; i++)
     {
       num_spins++;
       update_gboard ();
       if (print_game_info)
         print_gboard (i);
-      process_lines (); // handles line and bonus wins
+      process_lines ();
 
       // Now handle board level scatter win
       handle_any_scatter_wins ();
@@ -52,12 +52,12 @@ void process_lines ()
 }
 
 // LOCAL FUNCTIONS
-static void print_win_line (int linenum, symbols sym, int count, int payout)
+static void print_win_line (int linenum, symbol sym, int count, ulong payout)
 {
   printf ("Line %2d: ", linenum);
   for (int j = 0; j < N_REELS; j++)
     printf ("%-3s", print_sym (lines[linenum][j]));
-  printf (" => %d %s pays %d credits.\n", count, print_sym (sym), payout);
+  printf (" => %d %s pays %lu credits.\n", count, print_sym (sym), payout);
 }
 
 static void handle_any_scatter_wins ()
@@ -74,21 +74,21 @@ static void handle_any_scatter_wins ()
   switch (count)
     {
       case 3:
-        num_scatters++;
+        num_scatter_hits++;
       cum_scatter_wins += 5;
       if (print_game_info)
         printf ("[Scatter] => 3 scatters win 5 credits.\n");
       break;
 
       case 4:
-        num_scatters++;
+        num_scatter_hits++;
       cum_scatter_wins += 25;
       if (print_game_info)
         printf ("[Scatter] => 4 scatters win 25 credits.\n");
       break;
 
       case 5:
-        num_scatters++;
+        num_scatter_hits++;
       cum_scatter_wins += 200;
       if (print_game_info)
         printf ("[Scatter] => 5 scatters win 200 credits.\n");
@@ -101,8 +101,8 @@ static void handle_any_scatter_wins ()
 
 static void process_line (int linenum)
 {
-  symbols sym = lines[linenum][0];
-  symbols alt_sym = WS;
+  symbol sym = lines[linenum][0];
+  symbol alt_sym = WS;
 
   int count = 1; // count of matching symbols
   switch (sym)
@@ -169,41 +169,14 @@ static void process_line (int linenum)
 
   // count variable now set for number of consecutive sym symbols (1 based)
   count--; // adjust for zero based indexing
-  int payout = payouts[count][sym];
+  ulong payout = payouts[count][sym];
 
   if (payout > 0)
     {
       if (print_game_info)
         print_win_line (linenum, sym, count + 1, payout);
 
-      num_hits++;
-      switch (sym)
-        {
-          case LO:
-            num_bonuses += 1; // fixme: count # of bonus as num_line_wins
-          // fixme: using fixed bonus for testing (num_hits above too?)
-          cum_bonus_wins += payout;
-          break;
-
-          case LT:
-            break;
-
-          case WS:
-            if (count == 4) // zero based
-              {
-                num_jackpots++; // fixme: Add other jackpot actions
-                cum_jackpot_wins += payout;
-              }
-            else
-              {
-                num_line_wins++;
-                cum_line_wins += payout;
-              }
-          break;
-
-          default:
-            num_line_wins++;
-          cum_line_wins += payout;
-        }
+      num_line_hits++;
+      cum_line_wins += payout;
     }
 }

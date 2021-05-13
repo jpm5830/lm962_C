@@ -16,7 +16,7 @@ extern bool print_game_info; // TRUE or FALSE
 
 // GLOBAL FUNCTIONS
 void init_engine ();
-void spin_n_times (long n);
+void spin_n_times (ulong n);
 void process_lines ();
 
 #endif //_ENGINE_H_

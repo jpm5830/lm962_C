@@ -83,7 +83,7 @@ static void process_line (int linenum)
       switch (sym)
         {
           case LO:
-            num_bonuses += 1; // fixme: count # of bonus as num_line_wins
+            num_bonus_hits += 1; // fixme: count # of bonus as num_line_wins
           // fixme: using fixed bonus for testing (num_hits above too?)
           cum_bonus_wins += payout;
           break;
@@ -94,7 +94,7 @@ static void process_line (int linenum)
           case WS:
             if (count == 4) // zero based
               {
-                num_jackpots++; // fixme: Add other jackpot actions
+                num_jackpot_hits++; // fixme: Add other jackpot actions
                 cum_jackpot_wins += payout;
               }
             else

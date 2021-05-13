@@ -6,16 +6,14 @@
 #include "gameboard.h"
 
 // GLOBAL VARIABLES
-int gboard[N_ROWS][N_REELS];
-int lines[MAX_LINES][N_REELS];
-
-// PRIVATE VARIABLES
+symbol gboard[N_ROWS][N_REELS];
+symbol lines[MAX_LINES][N_REELS];
 
 // LOCAL FUNCTIONS
-static void print_line (int linenum)
+static void print_line (ulong linenum)
 {
   printf ("Line %-3d: ", linenum);
-  for (int i = 0; i < N_REELS; i++)
+  for (ulong i = 0; i < N_REELS; i++)
     printf ("%-3s", print_sym (lines[linenum][i]));
   printf ("\n");
 }
@@ -100,12 +98,13 @@ static void update_lines (void)
 }
 
 // GLOBAL FUNCTIONS
-void print_lines (void)
+void print_all_lines (void)
 {
   printf ("\n");
   for (int i = 0; i < MAX_LINES; i++)
     print_line (i);
   printf ("\n");
+
 }
 
 void update_gboard (void)
@@ -113,7 +112,7 @@ void update_gboard (void)
   //shuffle_reels();
   for (int i = 0; i < N_REELS; i++)
     {
-      int chosen_slot = (int) (random () % reel_sizes[i]);
+      ulong chosen_slot = (ulong) (random () % reel_sizes[i]);
       gboard[0][i] = reels[i][chosen_slot];
       chosen_slot++;
       if (chosen_slot < reel_sizes[i])
@@ -132,10 +131,10 @@ void update_gboard (void)
   update_lines ();
 }
 
-void print_gboard (long gamenum)
+void print_gboard (ulong game_num)
 {
   printf ("\n");
-  printf ("GAMEBOARD %ld\n", gamenum);
+  printf ("GAMEBOARD %ld\n", game_num);
   printf ("---------\n");
   for (int i = 0; i < N_ROWS; i++)
     {
@@ -150,5 +149,6 @@ void init_gboard (void)
 {
   init_reels ();
   shuffle_reels ();
+  print_reels ();
   update_gboard ();
 }

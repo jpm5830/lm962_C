@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include "reels.h"
 
-int *reels[N_REELS];
+// Pointers to each reel
+symbol *reels[N_REELS];
 
-// LM962 SYMBOL COUNTS PER REEL AND REEL SIZES
+//  REEL SIZES FOR EACH REEL
 const int reel_sizes[N_REELS] = {47, 46, 48, 50, 50};
 
+// LM962 SYMBOL COUNTS PER REEL
 static const int reel_cnts[N_REELS][SYM_SET_SIZE] = {
     {2, 4, 4, 6, 5, 6, 6, 5, 5, 2, 2},
     {2, 4, 4, 4, 4, 4, 6, 6, 5, 5, 2},
@@ -16,18 +18,25 @@ static const int reel_cnts[N_REELS][SYM_SET_SIZE] = {
     {2, 4, 5, 4, 7, 7, 6, 6, 7, 0, 2}};
 
 // LOCAL FUNCTIONS
-static int *make_reel (size_t capacity)
+static symbol *make_reel (size_t capacity)
 {
-  int *rmem = (int *) calloc (capacity, sizeof (int));
+  symbol *rmem = (symbol *) calloc (capacity, sizeof (int));
   assert(rmem != NULL);
   return (rmem);
 }
 
-static void populate_reel (int *reel, int reel_idx)
+static void set_fixed_reels ()
 {
-  assert(reel != NULL);
-  assert(reel_idx > -1 && reel_idx < N_REELS);
-  int *rptr = reel;
+  reels[0] = {CL, SF, LM, CL, BU, LT, LH, LH, LH, BO, LH, LO, TU, TU, BO, SG, TU, WS, LM, WS, SG, CL, TU, BO, BO, LM,
+              SG, LT, SF, LH, SF, BU, CL, SF, CL, CL, BO, SG, LO, LM, BO, BU, TU, SG, SF, TU, BU};
+  reels[1] =
+}
+
+static void populate_reel (symbol *reel, int reel_idx)
+{
+  assert (reel != NULL);
+  assert ((reel_idx > -1) && (reel_idx < N_REELS));
+  symbol *rptr = reel;
   for (int i = 0; i < SYM_SET_SIZE; i++)
     {
       int cnt = reel_cnts[reel_idx][i];
@@ -39,27 +48,27 @@ static void populate_reel (int *reel, int reel_idx)
     }
 }
 
-static void print_reel (int *reel, int reel_idx)
+static void print_reel (symbol *reel, int reel_idx)
 {
   assert(reel != NULL);
-  assert(reel_idx > -1 && reel_idx < N_REELS);
+  assert((reel_idx > -1) && (reel_idx < N_REELS));
   int slots = reel_sizes[reel_idx];
-  printf ("Reel %d: ", reel_idx);
-  for (int i = 0; i < slots; i++)
-    printf ("%-3s", print_sym (reel[i]));
-  printf ("\n");
+  printf ("Reel %d: { ", reel_idx);
+  for (int i = 0; i < slots - 1; i++)
+    printf ("%s, ", print_sym (reel[i]));
+  printf ("%s }\n", print_sym (reel[slots - 1]));
 }
 
 // Utility function to swap elements `a[i]` and `a[j]` in an array
-static void swap (int a[], int i, int j)
+static void swap (symbol a[], int i, int j)
 {
-  int temp = a[i];
+  symbol temp = a[i];
   a[i] = a[j];
   a[j] = temp;
 }
 
 // Function to shuffle an array `a[]` of `n` elements
-static void shuffle_reel (int a[], int n)
+static void shuffle_reel (symbol a[], int n)
 {
   // read array from the highest index to lowest
   for (int i = n - 1; i >= 1; i--)
@@ -78,13 +87,13 @@ void init_reels ()
 {
   for (int i = 0; i < N_REELS; i++)
     {
-      int *reel = make_reel (reel_sizes[i]);
+      symbol *reel = make_reel (reel_sizes[i]);
       populate_reel (reel, i);
       reels[i] = reel;
     }
 }
 
-char *print_sym (int i)
+char *print_sym (symbol i)
 {
   char *ch;
   switch (i)

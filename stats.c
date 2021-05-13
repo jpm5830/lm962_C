@@ -7,16 +7,11 @@
 #include "engine.h"
 
 // COUNTERS
-long num_spins;
-long num_hits;
-long num_line_wins;
-long num_bonuses;
-long num_scatters;
-long num_jackpots;
-long cum_line_wins;
-long cum_bonus_wins;
-long cum_scatter_wins;
-long cum_jackpot_wins;
+ulong num_spins; // +1 for each new game
+ulong num_line_hits; // +1 for each line win
+ulong num_scatter_hits; // +1 for each scatter win
+ulong cum_line_wins; // cumulative credits won for line wins
+ulong cum_scatter_wins; // cumulative credits won for scatter wins
 
 // CALCULATED
 double hit_rate;
@@ -25,22 +20,17 @@ double rtp;
 // GLOBAL FUNCTIONS
 void reset_stats ()
 {
-  num_spins = 0;
-  num_hits = 0;
-  num_bonuses = 0;
-  num_scatters = 0;
-  num_jackpots = 0;
-  cum_line_wins = 0;
-  cum_bonus_wins = 0;
-  cum_scatter_wins = 0;
-  cum_jackpot_wins = 0;
 }
 
 void print_stats ()
 {
-  long total_hits = num_hits + num_scatters + num_bonuses;
-  long total_winnings = cum_line_wins + cum_scatter_wins + cum_bonus_wins;
-  hit_rate = (double) total_hits / ((double) num_spins * (double) N_ACTIVE_PAYLINES) * 100.0;
+  ulong total_hits = num_line_hits + num_scatter_hits;
+  ulong total_winnings = cum_line_wins + cum_scatter_wins;
+  ulong total_lines_played = N_ACTIVE_PAYLINES * num_spins;
+  hit_rate = (double) total_hits / ((double) total_lines_played) * 100.0;
   rtp = (double) total_winnings / ((double) num_spins * (double) N_ACTIVE_PAYLINES) * 100.0;
-  printf ("Spins: %ld  Hits: %ld  Hit Rate: %0.1f%%  Payback: %0.1f%%", num_spins, num_hits, hit_rate, rtp);
+  printf ("\nSpins: %lu  Lines Played: %lu  PAYLINES: %d\n", num_spins, total_lines_played, N_ACTIVE_PAYLINES);
+  printf ("Hit Rate: %0.1f%%  Payback: %0.1f%%\n", hit_rate, rtp);
+  printf ("HITS:  Line: %-12lu  Scatter: %-12lu  Total: %-12lu\n", num_line_hits, num_scatter_hits, total_hits);
+  printf ("WINS:  Line: %-12lu  Scatter: %-12lu  Total: %-12lu\n", cum_line_wins, cum_scatter_wins, total_winnings);
 }

@@ -4,14 +4,15 @@
 
 #include "reels.h"
 
+#define N_ROWS 3
 #define MAX_LINES 15
 
-extern int gboard[N_ROWS][N_REELS];
-extern int lines[MAX_LINES][N_REELS];
+extern symbol gboard[N_ROWS][N_REELS];
+extern symbol lines[MAX_LINES][N_REELS];
 
-void init_gboard (void);
-void update_gboard (void);
-void print_gboard (long gamenum);
-void print_lines (void);
+void init_gboard ();
+void update_gboard ();
+void print_gboard (ulong game_num);
+void print_all_lines ();
 
 #endif
