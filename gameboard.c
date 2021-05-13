@@ -10,10 +10,10 @@ symbol gboard[N_ROWS][N_REELS];
 symbol lines[MAX_LINES][N_REELS];
 
 // LOCAL FUNCTIONS
-static void print_line (ulong linenum)
+static void print_line (int linenum)
 {
   printf ("Line %-3d: ", linenum);
-  for (ulong i = 0; i < N_REELS; i++)
+  for (int i = 0; i < N_REELS; i++)
     printf ("%-3s", print_sym (lines[linenum][i]));
   printf ("\n");
 }
@@ -149,6 +149,5 @@ void init_gboard (void)
 {
   init_reels ();
   shuffle_reels ();
-  print_reels ();
   update_gboard ();
 }

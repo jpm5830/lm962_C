@@ -32,6 +32,16 @@ typedef enum {
 } symbol; // All 11 game symbols
 
 /**
+ * @brief  Use fixed reels or not
+ * Fixed reels are pre-shuffled reels with correct symbol counts for the 96.2%
+ * payback game. The reels are allocated in program memory, no dynamic memory
+ * allocation is needed. If this parameter is set to FALSE, dynamically allocated
+ * reels on the heap will be used instead. If FALSE, be sure to call the free_reels()
+ * function to free the dynamically allocated memory.
+ */
+bool use_fixed_reels = TRUE;
+
+/**
  * Array of pointers to each reel created.
  */
 extern symbol *reels[N_REELS];
