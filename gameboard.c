@@ -148,5 +148,6 @@ void print_gboard (ulong game_num)
 void init_gboard (void)
 {
   init_reels ();
+  shuffle_reels ();
   update_gboard ();
 }

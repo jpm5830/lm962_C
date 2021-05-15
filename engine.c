@@ -2,7 +2,7 @@
 // Created by jpm on 5/7/21.
 //
 
-#include <assert.h>
+#include "assert.h"
 #include <stdio.h>
 #include "stats.h"
 #include "engine.h"
@@ -18,7 +18,7 @@ ulong payouts[MAX_MATCHES][SYM_SET_SIZE] =
         {10000, 1000, 500, 500, 500, 250, 200, 200, 150, 0,   0}
     };
 
-// PRIVATE FORWARD DECLARATIONS
+// LOCAL FORWARD DECLARATIONS
 static void print_win_line (int linenum, symbol sym, int count, ulong payout);
 static void handle_any_scatter_wins ();
 static void process_line (int linenum);
