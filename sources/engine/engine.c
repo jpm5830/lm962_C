@@ -4,7 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include "stats.h"
+#include "../stats/stats.h"
 #include "engine.h"
 
 bool print_game_info = TRUE; // print gameboard and wins?

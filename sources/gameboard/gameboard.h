@@ -2,7 +2,7 @@
 #ifndef _GAMEBOARD_H_
 #define _GAMEBOARD_H_
 
-#include "reels.h"
+#include "../reels/reels.h"
 
 #define N_ROWS 3
 #define MAX_LINES 15

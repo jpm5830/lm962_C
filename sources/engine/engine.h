@@ -7,7 +7,7 @@
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
 
-#include "gameboard.h"
+#include "../gameboard/gameboard.h"
 
 #define MAX_MATCHES 5
 #define N_ACTIVE_PAYLINES 1

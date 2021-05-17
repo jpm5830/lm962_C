@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include "stats.h"
-#include "engine.h"
+#include "../engine/engine.h"
 
 // COUNTERS
 ulong num_spins; // +1 for each new game
