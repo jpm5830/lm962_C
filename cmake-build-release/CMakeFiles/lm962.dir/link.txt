@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/lm962.dir/sources/reels/reels.c.o CMakeFiles/lm962.dir/sources/gameboard/gameboard.c.o CMakeFiles/lm962.dir/sources/stats/stats.c.o CMakeFiles/lm962.dir/sources/engine/engine.c.o CMakeFiles/lm962.dir/sources/main.c.o -o lm962 

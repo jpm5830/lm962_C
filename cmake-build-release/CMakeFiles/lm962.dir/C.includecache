@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jpm/CLionProjects/lm962/sources/engine/engine.h
+../gameboard/gameboard.h
+/home/jpm/CLionProjects/lm962/sources/gameboard/gameboard.h
+
+/home/jpm/CLionProjects/lm962/sources/gameboard/gameboard.h
+../reels/reels.h
+/home/jpm/CLionProjects/lm962/sources/reels/reels.h
+
+/home/jpm/CLionProjects/lm962/sources/main.c
+time.h
+-
+stdio.h
+-
+stdlib.h
+-
+gameboard/gameboard.h
+/home/jpm/CLionProjects/lm962/sources/gameboard/gameboard.h
+stats/stats.h
+/home/jpm/CLionProjects/lm962/sources/stats/stats.h
+engine/engine.h
+/home/jpm/CLionProjects/lm962/sources/engine/engine.h
+
+/home/jpm/CLionProjects/lm962/sources/reels/reels.h
+
+/home/jpm/CLionProjects/lm962/sources/stats/stats.h
+
