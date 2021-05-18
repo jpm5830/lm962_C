@@ -1,1 +1,0 @@
-/usr/bin/cc -g CMakeFiles/main.c.dir/reels.c.o CMakeFiles/main.c.dir/gameboard.c.o -o main.c 
